@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import { useState } from "react";
 import useSocket from "../hooks/useSocket";
 import { useAuth } from "../hooks/useAuth";
+import { useActiveChat } from "../hooks/useActiveChat";
 
 const StyledMessageInput = styled.div`
   background-color: green;
@@ -35,7 +36,8 @@ export const MessageInput: React.FC = () => {
   const { socket } = useSocket();
   const { userId } = useAuth();
   const [messageText, setMessageText] = useState("")
-  
+  const { activeChatUserId } = useActiveChat();
+
   const clearMessageText = () => {
     setMessageText("");
   }
@@ -44,7 +46,7 @@ export const MessageInput: React.FC = () => {
     socket.emit("chatMessage", {
       text: messageText,
       from: userId,
-      to: 35,
+      to: activeChatUserId,
     }, (serverAck: any) => {
       console.log("message received:", serverAck);
     })

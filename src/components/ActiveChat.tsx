@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { useEffect, useState } from "react";
 import useSocket from "../hooks/useSocket";
+import { useActiveChat } from "../hooks/useActiveChat";
 
 const StyledChat = styled.div`
   background-color: white;
@@ -19,7 +20,7 @@ const ChatMessage = styled.p`
   max-width: max-content;
 `
 
-export const Chat: React.FC = () => {
+export const ActiveChat: React.FC = () => {
   const { socket } = useSocket();
   const [messages, setMessages] = useState([] as string[]);
 

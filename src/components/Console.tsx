@@ -1,21 +1,21 @@
 import { styled } from "styled-components";
 import useSocket from "../hooks/useSocket";
+import { UserChat } from "./UserChat";
 
 const StyledConsole = styled.div`
   background-color: blue;
+  border: 1px solid blue;
   flex: 1 1 30%;
 `
 
 export const Console: React.FC = () => {
-  const activeUsers = [] as number[];
-  const { userId } = useSocket();
-
+  const { userId, activeUsers } = useSocket();
+  
   return (
     <StyledConsole>
       <h1>I am {userId}</h1>
-      <h1>Online Users</h1>
       {activeUsers?.map( userId => {
-        return <p>User {userId}</p>
+        return <UserChat userId={userId}></UserChat>
       })}
     </StyledConsole>
   );

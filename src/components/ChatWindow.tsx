@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { ChatHeader } from "./ChatHeader";
-import { Chat } from "./Chat";
+import { ActiveChat } from "./ActiveChat";
 import { MessageInput } from "./MessageInput";
 
 const StyledChatWindow = styled.div`
@@ -14,7 +14,7 @@ export const ChatWindow: React.FC = () => {
   return (
     <StyledChatWindow>
       <ChatHeader></ChatHeader>
-      <Chat></Chat>
+      <ActiveChat></ActiveChat>
       <MessageInput></MessageInput>
     </StyledChatWindow>
   );

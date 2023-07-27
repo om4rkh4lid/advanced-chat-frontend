@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useEffect } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { socket } from "../socket";
 import { Session } from "../types/custom/Session";
 import { Socket } from "socket.io-client";
@@ -21,6 +21,7 @@ type SocketProviderProps = {
 
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [sessionId, setSessionId] = useLocalStorage<string>("sessionId", "");
+  const [activeUsers, setActiveUsers] = useState<number[]>([]);
   const { userId } = useAuth();
 
   useEffect(() => {
@@ -41,12 +42,16 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       setSessionId(session.sessionId);
     });
 
+    socket.on('activeUsers', (activeUsers: number[]) => {
+      setActiveUsers(activeUsers.filter(user => user !== userId));
+    });
+
 
     return () => { socket.disconnect(); }
   }, []);
 
   return (
-    <SocketContext.Provider value={{ socket, sessionId, userId }}>
+    <SocketContext.Provider value={{ socket, sessionId, userId, activeUsers }}>
       {children}
     </SocketContext.Provider>
   );
