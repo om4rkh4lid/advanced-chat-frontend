@@ -44,7 +44,7 @@ export const MessageInput: React.FC = () => {
     socket.emit("chatMessage", {
       text: messageText,
       from: userId,
-      to: "Golden Boy",
+      to: 35,
     }, (serverAck: any) => {
       console.log("message received:", serverAck);
     })
