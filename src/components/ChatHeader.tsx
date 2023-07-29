@@ -32,7 +32,7 @@ const StyledContactStatus = styled.div`
 
 export const ChatHeader: React.FC = () => {
   const { activeChatUserId } = useActiveChat();
-  
+
   return (
     <StyledChatHeader>
       <StyledProfilePic src={profileImgPlaceholder as string}></StyledProfilePic>

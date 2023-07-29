@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useId, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { styled } from "styled-components"
 import { useAuth } from "../hooks/useAuth"
@@ -24,14 +24,21 @@ const StyledLoginForm = styled.div`
 `
 
 export const LoginPage: React.FC = () => {
-  const { authenticate } = useAuth();
+  const { userId, authenticate } = useAuth();
   const [userIdInput, setUserIdInput] = useState<string>("");
   const navigate = useNavigate();
+
+  const navigateToChat = () => {
+    navigate('chat');
+  }
+
+  useEffect(() => {
+    userId && navigateToChat();
+  }, [userId]);
 
   const handleLogin = () => {
     const userId = parseInt(userIdInput);
     authenticate(userId);
-    navigate('chat');
   }
 
   return (

@@ -1,10 +1,10 @@
 import { styled } from "styled-components";
 import { useEffect, useState } from "react";
 import useSocket from "../hooks/useSocket";
-import { useActiveChat } from "../hooks/useActiveChat";
 
 const StyledChat = styled.div`
   background-color: white;
+  border-left: 1px solid green;
   flex: 1;
   overflow-x: hidden;
   overflow-y: scroll;

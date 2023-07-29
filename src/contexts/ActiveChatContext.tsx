@@ -1,6 +1,4 @@
-import { ReactNode, createContext } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import useSocket from "../hooks/useSocket";
+import { ReactNode, createContext, useState } from "react";
 
 type ActiveChatContext = {
   activeChatUserId: number;
@@ -14,8 +12,7 @@ type ActiveChatProps = {
 export const ActiveChatContext = createContext<ActiveChatContext>({} as ActiveChatContext);
 
 export const ActiveChatProvider: React.FC<ActiveChatProps> = ({ children }) => {
-  const { activeUsers } = useSocket();
-  const [activeChatUserId, setIdForActiveUser] = useLocalStorage<number>('activeChatUserId', activeUsers ? activeUsers[0] : 0);
+  const [activeChatUserId, setIdForActiveUser] = useState<number>(0);
 
   const setActiveChatUserId = (id: number) => {
     setIdForActiveUser(id);

@@ -4,16 +4,22 @@ import { UserChat } from "./UserChat";
 
 const StyledConsole = styled.div`
   background-color: blue;
-  border: 1px solid blue;
   flex: 1 1 30%;
 `
+
+const StyledUser = styled.h1`
+  text-align: center;
+  color: white;
+  height: 70px;
+  line-height: 70px;
+`;
 
 export const Console: React.FC = () => {
   const { userId, activeUsers } = useSocket();
   
   return (
     <StyledConsole>
-      <h1>I am {userId}</h1>
+      <StyledUser>User #{userId}</StyledUser>
       {activeUsers?.map( userId => {
         return <UserChat userId={userId}></UserChat>
       })}

@@ -42,7 +42,7 @@ export const UserChat: React.FC<UserChatProps> = ({ userId }) => {
       <StyledUserChatImage src={profileImage}></StyledUserChatImage>
       <div>
         <h3>User #{userId}</h3>
-        <p>lorem ipsum solor amet di...</p>
+        <p>Online Now</p>
       </div>
     </StyledUserChat>
   );
