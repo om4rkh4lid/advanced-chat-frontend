@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import profileImage from "../assets/profile-pic.jpeg";
-import { useActiveChat } from "../hooks/useActiveChat";
+import { useChat } from "../hooks/useChat";
 
 const StyledUserChat = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -31,7 +31,7 @@ type UserChatProps = {
 }
 
 export const UserChat: React.FC<UserChatProps> = ({ userId }) => {
-  const { setActiveChatUserId } = useActiveChat();
+  const { setActiveChatUserId } = useChat();
 
   const setActiveChat = () => {
     setActiveChatUserId(userId);

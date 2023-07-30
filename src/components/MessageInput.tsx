@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { useState } from "react";
 import useSocket from "../hooks/useSocket";
 import { useAuth } from "../hooks/useAuth";
-import { useActiveChat } from "../hooks/useActiveChat";
+import { useChat } from "../hooks/useChat";
 
 const StyledMessageInput = styled.div`
   background-color: green;
@@ -13,7 +13,7 @@ const StyledMessageInput = styled.div`
   padding: 12px;
 `;
 
-const StyledMessageTextInput = styled.input.attrs(_=> ({
+const StyledMessageTextInput = styled.input.attrs(_ => ({
   type: 'text'
 }))`
   flex: 19;
@@ -33,23 +33,15 @@ const StyledInputsContainer = styled.div`
 `
 
 export const MessageInput: React.FC = () => {
-  const { socket } = useSocket();
-  const { userId } = useAuth();
-  const [messageText, setMessageText] = useState("")
-  const { activeChatUserId } = useActiveChat();
+  const [messageText, setMessageText] = useState("");
+  const { sendNewMessage } = useChat();
 
   const clearMessageText = () => {
     setMessageText("");
   }
 
   const sendMessage = () => {
-    socket.emit("chatMessage", {
-      text: messageText,
-      from: userId,
-      to: activeChatUserId,
-    }, (serverAck: any) => {
-      console.log("message received:", serverAck);
-    })
+    sendNewMessage({ text: messageText })
     clearMessageText();
   }
 

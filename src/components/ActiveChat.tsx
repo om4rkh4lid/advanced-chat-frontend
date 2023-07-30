@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { useEffect, useState } from "react";
 import useSocket from "../hooks/useSocket";
+import { useChat } from "../hooks/useChat";
 
 const StyledChat = styled.div`
   background-color: white;
@@ -21,23 +22,11 @@ const ChatMessage = styled.p`
 `
 
 export const ActiveChat: React.FC = () => {
-  const { socket } = useSocket();
-  const [messages, setMessages] = useState([] as string[]);
-
-  const onNewMessage = (message: any) => {
-    setMessages(prev => {
-      return [...prev, message.text];
-    })
-  }
-
-  useEffect(() => {
-    socket.on('chatMessage', onNewMessage)
-    return () => { socket.off('chatMessage', onNewMessage) }
-  }, []);
+  const { messages } = useChat();
 
   return (
     <StyledChat>
-      {messages.map((message, index) => <ChatMessage key={index}>{message}</ChatMessage>)}
+      {messages.map((message, index) => <ChatMessage key={index}>{message.text}</ChatMessage>)}
     </StyledChat>
   );
 }

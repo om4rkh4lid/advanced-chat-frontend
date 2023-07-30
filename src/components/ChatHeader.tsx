@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import profileImgPlaceholder from '../assets/profile-pic.jpeg';
-import { useActiveChat } from "../hooks/useActiveChat";
+import { useChat } from "../hooks/useChat";
 
 const StyledChatHeader = styled.div`
   background-color: green;
@@ -31,7 +31,7 @@ const StyledContactStatus = styled.div`
 `
 
 export const ChatHeader: React.FC = () => {
-  const { activeChatUserId } = useActiveChat();
+  const { activeChatUserId } = useChat();
 
   return (
     <StyledChatHeader>
