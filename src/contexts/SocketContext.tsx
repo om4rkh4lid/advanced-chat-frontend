@@ -46,7 +46,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       setActiveUsers(activeUsers.filter(user => user !== userId));
     });
 
-
     return () => { socket.disconnect(); }
   }, []);
 

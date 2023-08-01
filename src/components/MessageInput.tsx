@@ -1,7 +1,5 @@
 import { styled } from "styled-components";
 import { useState } from "react";
-import useSocket from "../hooks/useSocket";
-import { useAuth } from "../hooks/useAuth";
 import { useChat } from "../hooks/useChat";
 
 const StyledMessageInput = styled.div`

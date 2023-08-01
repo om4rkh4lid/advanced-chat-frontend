@@ -24,34 +24,38 @@ export const ChatProvider: React.FC<ChatProps> = ({ children }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([])
 
   const setActiveChatUserId = (id: number) => {
+    if (activeChatUserId !== 0) {
+      clearMessages();
+    }
     setIdForActiveUser(id);
-    clearMessages();
   }
 
   const clearMessages = () => {
-    setMessages([])
+    setMessages([]);
   }
 
   const appendNewMessage = (message: ChatMessage) => {
-    setMessages(prev => { return [...prev, message] })
+    setMessages(prev => { return [...prev, message] });
   }
 
   const sendNewMessage = (message: Partial<ChatMessage>) => {
+    console.log(message);
     message.from = userId;
     message.to = activeChatUserId;
     socket.emit('chatMessage', message);
   }
 
   const onNewChatMessage = (message: ChatMessage) => {
-    if (activeChatUserId === 0) {
-      setActiveChatUserId(message.to);
+    console.log(message);
+    if (activeChatUserId === 0 && message.from !== userId) {
+      setIdForActiveUser(message.from);
     }
     appendNewMessage(message);
   }
 
   useEffect(() => {
     socket.on('chatMessage', onNewChatMessage);
-    return () => { socket.off('chatMessage', onNewChatMessage) }
+    return () => { socket.off('chatMessage', onNewChatMessage) };
   }, []);
 
   return (

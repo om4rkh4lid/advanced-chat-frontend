@@ -20,8 +20,8 @@ export const Console: React.FC = () => {
   return (
     <StyledConsole>
       <StyledUser>User #{userId}</StyledUser>
-      {activeUsers?.map( userId => {
-        return <UserChat userId={userId}></UserChat>
+      {activeUsers?.map( (userId, index) => {
+        return <UserChat key={index} userId={userId}></UserChat>
       })}
     </StyledConsole>
   );
