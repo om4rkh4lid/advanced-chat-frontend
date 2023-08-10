@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import useSocket from "../hooks/useSocket";
 import { UserChat } from "./UserChat";
+import { useAppSelector } from "../hooks/useAppSelector";
 
 const StyledConsole = styled.div`
   background-color: blue;
@@ -15,11 +16,12 @@ const StyledUser = styled.h1`
 `;
 
 export const Console: React.FC = () => {
-  const { userId, activeUsers } = useSocket();
+  const { activeUsers } = useSocket();
+  const user = useAppSelector(state => state.auth.user);
   
   return (
     <StyledConsole>
-      <StyledUser>User #{userId}</StyledUser>
+      <StyledUser>User #{user?.id}</StyledUser>
       {activeUsers?.map( (userId, index) => {
         return <UserChat key={index} userId={userId}></UserChat>
       })}

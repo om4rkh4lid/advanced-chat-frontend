@@ -1,7 +1,9 @@
-import { useEffect, useId, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { styled } from "styled-components"
-import { useAuth } from "../hooks/useAuth"
+import { useAppSelector } from "../hooks/useAppSelector"
+import { useAppDispatch } from "../hooks/useAppDispatch"
+import { userSet } from "../features/auth/AuthSlice"
 
 const StyledLoginPage = styled.div`
   width: 100%;
@@ -24,7 +26,8 @@ const StyledLoginForm = styled.div`
 `
 
 export const LoginPage: React.FC = () => {
-  const { userId, authenticate } = useAuth();
+  const user = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
   const [userIdInput, setUserIdInput] = useState<string>("");
   const navigate = useNavigate();
 
@@ -33,12 +36,13 @@ export const LoginPage: React.FC = () => {
   }
 
   useEffect(() => {
-    userId && navigateToChat();
-  }, [userId]);
+    user && navigateToChat();
+  }, [user]);
 
   const handleLogin = () => {
     const userId = parseInt(userIdInput);
-    authenticate(userId);
+    const authenticatedUser = { id: userId };
+    dispatch(userSet(authenticatedUser));
   }
 
   return (
