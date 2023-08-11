@@ -4,6 +4,8 @@ import { Session } from "../types/custom/Session";
 import { Socket } from "socket.io-client";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useAppSelector } from "../hooks/useAppSelector";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { sessionSet } from "../features/auth/AuthSlice";
 
 type WebSocketContext = {
   socket: Socket
@@ -20,15 +22,15 @@ type SocketProviderProps = {
 }
 
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
-  const [sessionId, setSessionId] = useLocalStorage<string>("sessionId", "");
   const [activeUsers, setActiveUsers] = useState<number[]>([]);
-  const authenticatedUser = useAppSelector(state => state.auth.user);
+  const authenticatedUser = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
 
-    if (authenticatedUser?.id) {
+    if (authenticatedUser.user?.id) {
       socket.auth = {
-        userId: authenticatedUser.id
+        userId: authenticatedUser.user.id
       };
     }
 
@@ -39,18 +41,18 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     });
 
     socket.on('sessionCreated', (session: Session) => {
-      setSessionId(session.sessionId);
+      dispatch(sessionSet({ id: session.sessionId }));
     });
 
     socket.on('activeUsers', (activeUsers: number[]) => {
-      setActiveUsers(activeUsers.filter(user => user !== authenticatedUser?.id));
+      setActiveUsers(activeUsers.filter(user => user !== authenticatedUser?.user?.id));
     });
 
     return () => { socket.disconnect(); }
   }, []);
 
   return (
-    <SocketContext.Provider value={{ socket, sessionId, userId: authenticatedUser?.id, activeUsers }}>
+    <SocketContext.Provider value={{ socket, sessionId: authenticatedUser.session?.id, userId: authenticatedUser.user?.id, activeUsers }}>
       {children}
     </SocketContext.Provider>
   );

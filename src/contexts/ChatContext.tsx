@@ -1,7 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { ChatMessage } from "../types/custom/ChatMessage";
 import useSocket from "../hooks/useSocket";
-import { useAuth } from "../hooks/useAuth";
 import { useAppSelector } from "../hooks/useAppSelector";
 
 type ChatContext = {

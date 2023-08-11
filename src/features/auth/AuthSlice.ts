@@ -1,25 +1,36 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface AuthenticatedUserSession {
+  id: string;
+}
 interface AuthenticatedUser {
   id: number;
 }
 
 interface AuthState {
   user?: AuthenticatedUser,
+  session?: AuthenticatedUserSession
 }
 
 const initialState = () => {
-  const storedId = localStorage.getItem("userId")
-  if (storedId) {
-    const id = parseInt(storedId)
-    return {
-      user: {
-        id
-      }
+  const storedUserId = localStorage.getItem("userId");
+  const storedSessionId = localStorage.getItem("sessionId");
+  let state = { } as AuthState;
+  
+  if (storedUserId) {
+    const userId = parseInt(storedUserId);
+    state.user = {
+      id: userId
     }
-  } else {
-    return { };
+  } 
+  
+  if (storedSessionId) {
+    state.session = {
+      id: storedSessionId
+    }
   }
+
+  return state;
 }
 
 const authSlice = createSlice({
@@ -30,10 +41,16 @@ const authSlice = createSlice({
       state.user = action.payload;
     },
     userRemoved(state) {
-      state.user = undefined;
+      delete state.user;
+    },
+    sessionSet(state, action: PayloadAction<AuthenticatedUserSession>) {
+      state.session = action.payload;
+    },
+    sessionRemoved(state) {
+      delete state.session;
     }
   }
 });
 
-export const { userSet, userRemoved } = authSlice.actions;
+export const { userSet, userRemoved, sessionSet, sessionRemoved } = authSlice.actions;
 export default authSlice.reducer;

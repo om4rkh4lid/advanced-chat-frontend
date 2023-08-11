@@ -1,5 +1,5 @@
 import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
-import authSlice, { userRemoved, userSet } from '../features/auth/AuthSlice';
+import authSlice, { sessionRemoved, sessionSet, userRemoved, userSet } from '../features/auth/AuthSlice';
 
 const listenerMiddleware = createListenerMiddleware();
 
@@ -16,6 +16,20 @@ listenerMiddleware.startListening({
     localStorage.setItem("userId", "");
   }
 });
+
+listenerMiddleware.startListening({
+  actionCreator: sessionSet,
+  effect: (action, _) => {
+    localStorage.setItem("sessionId", action.payload.id);
+  }
+})
+
+listenerMiddleware.startListening({
+  actionCreator: sessionRemoved,
+  effect: (action, _) => {
+    localStorage.setItem("sessionId", "");
+  }
+})
 
 export const store = configureStore({
   reducer: {
