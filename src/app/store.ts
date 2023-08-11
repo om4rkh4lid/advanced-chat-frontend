@@ -1,5 +1,8 @@
 import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
 import authSlice, { sessionRemoved, sessionSet, userRemoved, userSet } from '../features/auth/AuthSlice';
+import ChatSlice from "../features/chat/ChatSlice";
+import { socketMiddleware } from "./socketMiddleware";
+import { socket } from "../socket";
 
 const listenerMiddleware = createListenerMiddleware();
 
@@ -29,15 +32,17 @@ listenerMiddleware.startListening({
   effect: (action, _) => {
     localStorage.setItem("sessionId", "");
   }
-})
+});
 
 export const store = configureStore({
   reducer: {
     auth: authSlice,
+    chat: ChatSlice,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
-      .concat(listenerMiddleware.middleware);
+      .concat(listenerMiddleware.middleware)
+      .concat(socketMiddleware(socket));
   }
 });
 

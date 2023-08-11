@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import { useChat } from "../hooks/useChat";
 import { useAppSelector } from "../hooks/useAppSelector";
 
 const StyledChat = styled.div`
@@ -32,9 +31,9 @@ const ReceivedChatMessage = styled(ChatMessage)`
 `;
 
 export const ActiveChat: React.FC = () => {
-  const { getActiveUserChat } = useChat();
   const user = useAppSelector((state) => state.auth.user);
-  const messages = getActiveUserChat();
+  const activeChatUserId = useAppSelector((state) => state.chat.lastActiveChat)
+  const messages = useAppSelector((state) => state.chat.messages.filter(msg => msg.from === activeChatUserId || msg.to === activeChatUserId));
 
   return (
     <StyledChat>

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface AuthenticatedUserSession {
+export interface AuthenticatedUserSession {
   id: string;
 }
-interface AuthenticatedUser {
+export interface AuthenticatedUser {
   id: number;
 }
 
@@ -15,7 +15,7 @@ interface AuthState {
 const initialState = () => {
   const storedUserId = localStorage.getItem("userId");
   const storedSessionId = localStorage.getItem("sessionId");
-  let state = { } as AuthState;
+  const state = { } as AuthState;
   
   if (storedUserId) {
     const userId = parseInt(storedUserId);

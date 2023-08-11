@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { useState } from "react";
-import { useChat } from "../hooks/useChat";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { sentChatMessage } from "../features/chat/ChatSlice";
 
 const StyledMessageInput = styled.div`
   background-color: green;
@@ -32,14 +33,14 @@ const StyledInputsContainer = styled.div`
 
 export const MessageInput: React.FC = () => {
   const [messageText, setMessageText] = useState("");
-  const { sendNewMessage } = useChat();
+  const dispatch = useAppDispatch();
 
   const clearMessageText = () => {
     setMessageText("");
   }
 
   const sendMessage = () => {
-    sendNewMessage({ text: messageText })
+    dispatch(sentChatMessage({ text: messageText }))
     clearMessageText();
   }
 

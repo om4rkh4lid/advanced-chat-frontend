@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import useSocket from "../hooks/useSocket";
 import { UserChat } from "./UserChat";
 import { useAppSelector } from "../hooks/useAppSelector";
 
@@ -16,13 +15,13 @@ const StyledUser = styled.h1`
 `;
 
 export const Console: React.FC = () => {
-  const { activeUsers } = useSocket();
   const user = useAppSelector(state => state.auth.user);
+  const onlineUsers = useAppSelector(state => state.chat.onlineUsers);
   
   return (
     <StyledConsole>
       <StyledUser>User #{user?.id}</StyledUser>
-      {activeUsers?.map( (userId, index) => {
+      {onlineUsers?.map( (userId, index) => {
         return <UserChat key={index} userId={userId}></UserChat>
       })}
     </StyledConsole>

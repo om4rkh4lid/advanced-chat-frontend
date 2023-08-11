@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { ActiveArea } from "../components/ActiveArea";
 import { Console } from "../components/Console";
-import { SocketProvider } from "../contexts/SocketContext";
-import { ChatProvider } from "../contexts/ChatContext";
+import { useEffect } from "react";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { userConnected, userDisconnected } from "../features/chat/ChatSlice";
 
 
 const StyledChatPage = styled.div`
@@ -12,14 +13,17 @@ const StyledChatPage = styled.div`
 `;
 
 export const ChatPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(userConnected());
+    return () => { dispatch(userDisconnected()) }
+  }, []);
+
   return (
-    <SocketProvider>
-      <ChatProvider>
-        <StyledChatPage>
-          <Console></Console>
-          <ActiveArea></ActiveArea>
-        </StyledChatPage>
-      </ChatProvider>
-    </SocketProvider>
+    <StyledChatPage>
+      <Console></Console>
+      <ActiveArea></ActiveArea>
+    </StyledChatPage>
   );
 }

@@ -32,7 +32,7 @@ export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   const navigateToChat = () => {
-    navigate('chat');
+    navigate('/chat');
   }
 
   useEffect(() => {
