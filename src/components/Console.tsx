@@ -1,6 +1,8 @@
 import { styled } from "styled-components";
 import { UserChat } from "./UserChat";
 import { useAppSelector } from "../hooks/useAppSelector";
+import { getAuthenticatedUser } from "../features/auth/AuthSlice";
+import { getOnlineUsers } from "../features/chat/ChatSlice";
 
 const StyledConsole = styled.div`
   background-color: blue;
@@ -15,8 +17,8 @@ const StyledUser = styled.h1`
 `;
 
 export const Console: React.FC = () => {
-  const user = useAppSelector(state => state.auth.user);
-  const onlineUsers = useAppSelector(state => state.chat.onlineUsers);
+  const user = getAuthenticatedUser();
+  const onlineUsers = getOnlineUsers();
   
   return (
     <StyledConsole>

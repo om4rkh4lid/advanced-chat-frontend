@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 export interface AuthenticatedUserSession {
   id: string;
@@ -54,3 +55,5 @@ const authSlice = createSlice({
 
 export const { userSet, userRemoved, sessionSet, sessionRemoved } = authSlice.actions;
 export default authSlice.reducer;
+
+export const getAuthenticatedUser = () => useAppSelector(state => state.auth.user);

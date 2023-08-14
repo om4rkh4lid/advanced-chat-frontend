@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import profileImgPlaceholder from '../assets/profile-pic.jpeg';
 import { useAppSelector } from "../hooks/useAppSelector";
+import { getLastActiveChatUser } from "../features/chat/ChatSlice";
 
 const StyledChatHeader = styled.div`
   background-color: green;
@@ -31,7 +32,7 @@ const StyledContactStatus = styled.div`
 `
 
 export const ChatHeader: React.FC = () => {
-  const activeChatUserId = useAppSelector(state => state.chat.lastActiveChat);
+  const activeChatUserId = getLastActiveChatUser();
 
   return (
     <StyledChatHeader>
