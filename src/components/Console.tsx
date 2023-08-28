@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
 import { UserChat } from "./UserChat";
-import { useAppSelector } from "../hooks/useAppSelector";
 import { getAuthenticatedUser } from "../features/auth/AuthSlice";
-import { getOnlineUsers } from "../features/chat/ChatSlice";
+import { getOnlineUsers } from "../features/chat/selectors";
+import { useEffect } from "react";
 
 const StyledConsole = styled.div`
   background-color: blue;
@@ -22,7 +22,7 @@ export const Console: React.FC = () => {
   
   return (
     <StyledConsole>
-      <StyledUser>User #{user?.id}</StyledUser>
+      <StyledUser>{user?.firstName} {user?.lastName}</StyledUser>
       {onlineUsers?.map( (userId, index) => {
         return <UserChat key={index} userId={userId}></UserChat>
       })}

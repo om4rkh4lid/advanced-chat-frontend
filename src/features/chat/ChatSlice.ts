@@ -1,6 +1,6 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit"
 import { ChatMessage } from "../../types/custom/ChatMessage";
-import { useAppSelector } from "../../hooks/useAppSelector";
+
 
 interface ChatState {
   lastActiveChat?: number,
@@ -9,7 +9,7 @@ interface ChatState {
 }
 
 const initialState = () => {
-  const state = { 
+  const state = {
     onlineUsers: [],
     messages: [],
   } as ChatState;
@@ -45,6 +45,3 @@ const chatSlice = createSlice({
 export const { userConnected, userDisconnected, activeChatSet, receivedChatMessage, onlineUsersUpdated, sentChatMessage } = chatSlice.actions;
 export default chatSlice.reducer;
 
-export const getLastActiveChatUser = () => useAppSelector(state => state.chat.lastActiveChat);
-export const getActiveChatMessages = () => useAppSelector(state => state.chat.messages.filter(msg => msg.from === state.chat.lastActiveChat || msg.to === state.chat.lastActiveChat));
-export const getOnlineUsers = () => useAppSelector(state => state.chat.onlineUsers.filter(user => state.auth.user && user !== state.auth.user?.id))

@@ -1,7 +1,8 @@
 import { styled } from "styled-components";
 import { ChatWindow } from "./ChatWindow";
 import { useAppSelector } from "../hooks/useAppSelector";
-import { getLastActiveChatUser } from "../features/chat/ChatSlice";
+import { getLastActiveChatUser } from "../features/chat/selectors";
+
 
 const StyledActiveArea = styled.div`
   flex: 1 1 70%;

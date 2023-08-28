@@ -9,14 +9,15 @@ const listenerMiddleware = createListenerMiddleware();
 listenerMiddleware.startListening({
   actionCreator: userSet,
   effect: (action, _) => {
-    localStorage.setItem("userId", `${action.payload.id}`);
+    const serialized = JSON.stringify(action.payload);
+    localStorage.setItem("user", serialized);
   }
 });
 
 listenerMiddleware.startListening({
   actionCreator: userRemoved,
   effect: (action, _) => {
-    localStorage.setItem("userId", "");
+    localStorage.removeItem("user");
   }
 });
 
@@ -30,7 +31,7 @@ listenerMiddleware.startListening({
 listenerMiddleware.startListening({
   actionCreator: sessionRemoved,
   effect: (action, _) => {
-    localStorage.setItem("sessionId", "");
+    localStorage.removeItem("sessionId");
   }
 });
 
@@ -45,6 +46,8 @@ export const store = configureStore({
       .concat(socketMiddleware(socket));
   }
 });
+
+export const getAppState = (): RootState => store.getState();
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

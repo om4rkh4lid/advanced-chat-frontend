@@ -6,22 +6,29 @@ export interface AuthenticatedUserSession {
 }
 export interface AuthenticatedUser {
   id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  photoUrl?: string;
 }
 
 interface AuthState {
   user?: AuthenticatedUser,
-  session?: AuthenticatedUserSession
+  session?: AuthenticatedUserSession,
+  token?: string
 }
 
 const initialState = () => {
-  const storedUserId = localStorage.getItem("userId");
+  const storedUser = localStorage.getItem("user");
   const storedSessionId = localStorage.getItem("sessionId");
   const state = { } as AuthState;
   
-  if (storedUserId) {
-    const userId = parseInt(storedUserId);
-    state.user = {
-      id: userId
+  if (storedUser) {
+    try {
+      const user: AuthenticatedUser = JSON.parse(storedUser);
+      state.user = user;
+    } catch (error) {
+      console.error('Failed to deserialized AuthenticatedUser from local storage', error);
     }
   } 
   
@@ -49,11 +56,14 @@ const authSlice = createSlice({
     },
     sessionRemoved(state) {
       delete state.session;
+    },
+    tokenSet(state, action: PayloadAction<string>) {
+      state.token = action.payload;
     }
   }
 });
 
-export const { userSet, userRemoved, sessionSet, sessionRemoved } = authSlice.actions;
+export const { userSet, userRemoved, sessionSet, sessionRemoved, tokenSet } = authSlice.actions;
 export default authSlice.reducer;
 
 export const getAuthenticatedUser = () => useAppSelector(state => state.auth.user);

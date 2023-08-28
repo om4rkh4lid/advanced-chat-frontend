@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import profileImgPlaceholder from '../assets/profile-pic.jpeg';
-import { useAppSelector } from "../hooks/useAppSelector";
-import { getLastActiveChatUser } from "../features/chat/ChatSlice";
+import { getLastActiveChatUser } from "../features/chat/selectors";
+
 
 const StyledChatHeader = styled.div`
   background-color: green;

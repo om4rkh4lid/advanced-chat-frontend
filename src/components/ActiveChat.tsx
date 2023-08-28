@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
-import { getActiveChatMessages } from "../features/chat/ChatSlice";
 import { getAuthenticatedUser } from "../features/auth/AuthSlice";
+import { getActiveChatMessages } from "../features/chat/selectors";
 
 const StyledChat = styled.div`
   background-color: white;
@@ -38,7 +38,6 @@ export const ActiveChat: React.FC = () => {
   return (
     <StyledChat>
       {messages.map((message, index) => {
-        console.log(index);
         return user && message.from === user?.id 
         ? <SentChatMessage key={index}>{message.text}</SentChatMessage>
         : <ReceivedChatMessage key={index}>{message.text}</ReceivedChatMessage>
